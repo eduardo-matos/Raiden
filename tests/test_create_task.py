@@ -1,3 +1,4 @@
+from mock import patch, call
 from flask import url_for
 from . import BaseTest, dbsession as s
 from raiden.models import Task
@@ -14,11 +15,20 @@ class CreateTaskTest(BaseTest):
         self.assertIsInstance(resp.json['success'], bool)
         self.assertEquals(resp.json['msg'], '')
 
-    def test_create_persist_task(self):
+    def test_persist_task(self):
         resp = self.client.post(url_for('create_task'), data={'title': 'Spam', 'item_count': 73})
         result = s.query(Task.title, Task.item_count).all()
 
         self.assertEquals([('Spam', 73)], result)
+
+    def test_emit_websocket_signal(self):
+        with patch('raiden.views.socketio') as socketio:
+            resp = self.client.post(url_for('create_task'), data={'title': 'Spam', 'item_count': 73})
+            task = s.query(Task).order_by(Task.id.desc()).first()
+
+            self.assertEquals([call('new_task', {'current_count': task.current_count, 'item_count': task.item_count,
+                                                 'slug': task.slug, 'title': task.title})],
+                              socketio.emit.call_args_list)
 
     def test_returns_task_random_slug(self):
         slug_1 = self.client.post(url_for('create_task'), data={'title': 'Spam', 'item_count': 73}).json['slug']

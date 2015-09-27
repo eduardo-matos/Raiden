@@ -15,9 +15,9 @@ def rebuild_schema():
 
 class BaseTest(FlaskTestCase):
     def create_app(self):
-        app.config.from_object('raiden.conf_test')
         return app
 
     def __call__(self, *args, **kwargs):
+        app.config.from_object('raiden.conf_test')
         rebuild_schema()
         return super(BaseTest, self).__call__(*args, **kwargs)

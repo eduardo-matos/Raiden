@@ -1,4 +1,6 @@
 Flask==0.10.1
+psycopg2==2.6.1
 Flask-SQLAlchemy==2.0
 gunicorn==19.3.0
-
+Flask-SocketIO==0.6.0
+blinker==1.4

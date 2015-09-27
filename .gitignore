@@ -4,3 +4,9 @@ conf_local.py
 .cache/
 htmlcov/
 .coverage
+npm-debug.log
+raiden/node_modules/
+raiden/static/bower_components/
+raiden/static/js_all.js
+raiden/static/css_all.css
+raiden/static/.webassets-cache

@@ -1,0 +1,14 @@
+{
+  "name": "raiden",
+  "version": "0.0.0",
+  "description": "Let humans see progress",
+  "homepage": "https://github.com/eduardo-matos/Raiden",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angularjs": "1.4.6",
+    "angular-mocks": "1.4.6",
+    "socket.io-client": "0.9.16",
+    "bootstrap": "~3.3.5"
+  }
+}

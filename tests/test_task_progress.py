@@ -1,3 +1,4 @@
+from mock import patch, call
 from flask import url_for
 from . import BaseTest, dbsession as s
 from raiden.models import Task
@@ -22,6 +23,12 @@ class ProgressTaskTest(BaseTest):
         self.assertEquals(resp.json['current_count'], 6)
         self.assertEquals(resp.json['success'], True)
 
+    def test_emit_websocket_signal(self):
+        with patch('raiden.views.socketio') as socketio:
+            resp = self.client.post(url_for('progress_task', slug=self.task.slug), data={'current_count': 6})
+
+            self.assertEquals([call('progress_task', {'current_count': 6, 'slug': self.task.slug})],
+                              socketio.emit.call_args_list)
     def test_updates_specific_task(self):
         s.add(Task(title='Ham', item_count=10, slug='e09f6a7593f8ae3994ea57e1117f67ec'))
         s.commit()
