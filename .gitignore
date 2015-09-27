@@ -5,7 +5,7 @@ conf_local.py
 htmlcov/
 .coverage
 npm-debug.log
-raiden/node_modules/
+node_modules/
 raiden/static/bower_components/
 raiden/static/js_all.js
 raiden/static/css_all.css
