@@ -10,3 +10,5 @@ raiden/static/bower_components/
 raiden/static/js_all.js
 raiden/static/css_all.css
 raiden/static/.webassets-cache
+.tox/
+raiden.egg-info/
