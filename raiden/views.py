@@ -1,5 +1,5 @@
 from uuid import uuid4
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 from . import app, db
 from .models import Task
 
@@ -31,3 +31,10 @@ def progress_task(slug):
         return jsonify(dict(success=True, current_count=current_count))
     except ValueError:
         return jsonify(dict(success=False, msg="'current_count' should be an integer")), 400
+
+
+@app.route('/tasks', methods=['GET'])
+def tasks():
+    tasks_ = [(task[0], task.slug)
+             for task in db.session.query((Task.current_count * 100 / Task.item_count), Task.slug)]
+    return render_template('tasks.html', tasks=tasks_)
