@@ -20,7 +20,3 @@ def create_task():
     db.session.commit()
 
     return jsonify({'slug': task.slug, 'success': True, 'msg': ''})
-
-
-if __name__ == '__main__':
-    app.run()

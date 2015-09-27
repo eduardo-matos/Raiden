@@ -2,4 +2,5 @@
 
 pytest==2.8.0
 ipython==4.0.0
+pytest-cov==2.1.0
 
