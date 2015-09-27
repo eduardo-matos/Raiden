@@ -7,3 +7,4 @@ app.config.from_object('raiden.conf')
 
 db = SQLAlchemy(app)
 
+import views

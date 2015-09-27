@@ -1,5 +1,8 @@
-from unittest import TestCase
+from flask.ext.testing import TestCase as FlaskTestCase
 from raiden import app, db
+
+
+dbsession = db.session
 
 
 def rebuild_schema():
@@ -10,9 +13,11 @@ def rebuild_schema():
         raise Exception('Dont dare to test in {}!'.format(db.engine.url.drivername))
 
 
-class BaseTest(TestCase):
+class BaseTest(FlaskTestCase):
+    def create_app(self):
+        app.config.from_object('raiden.conf_test')
+        return app
+
     def __call__(self, *args, **kwargs):
         rebuild_schema()
-        self.client = app.test_client()
         return super(BaseTest, self).__call__(*args, **kwargs)
-
