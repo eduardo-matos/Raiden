@@ -20,3 +20,14 @@ def create_task():
     db.session.commit()
 
     return jsonify({'slug': task.slug, 'success': True, 'msg': ''})
+
+
+@app.route('/progress-task/<slug>', methods=['POST'])
+def progress_task(slug):
+    try:
+        current_count = int(request.form['current_count'])
+        db.session.query(Task).filter(Task.slug == slug).update({Task.current_count: current_count})
+
+        return jsonify(dict(success=True, current_count=current_count))
+    except ValueError:
+        return jsonify(dict(success=False, msg="'current_count' should be an integer")), 400
