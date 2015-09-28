@@ -9,7 +9,7 @@ describe('Raiden services', function() {
         TasksService = _TasksService_;
     }));
 
-    describe('Tasks Controller  Startup', function () {
+    describe('Tasks Controller Startup', function () {
         var controller;
 
         it('should populate scope with tasks', function () {
@@ -46,16 +46,16 @@ describe('Raiden services', function() {
         });
 
         it("should add new task on 'new_task' event", function () {
-            spyOn(scope, '$digest')
+            spyOn(scope, '$digest');
             callback_new_task({slug: 'spam', title: 'ham', current_count: 5, item_count: 20});
 
             expect(scope.tasks).toEqual({'spam': {slug: 'spam', title: 'ham', item_count: 20, current_count: 5, percent: 25}});
         });
 
-        it("should add new task on 'new_task' event", function () {
-            scope.tasks = {'ham': {slug: 'ham', title: 'spam', item_count: 10, current_count: 2, percent: 20}}
+        it("should update task progress on 'progress_task' event", function () {
+            scope.tasks = {'ham': {slug: 'ham', title: 'spam', item_count: 10, current_count: 2, percent: 20}};
 
-            spyOn(scope, '$digest')
+            spyOn(scope, '$digest');
             callback_progress_task({slug: 'ham', current_count: 5});
 
             expect(scope.tasks).toEqual({'ham': {slug: 'ham', title: 'spam', item_count: 10, current_count: 5, percent: 50}});
@@ -71,7 +71,7 @@ describe('Raiden services', function() {
                 $scope: scope,
                 SocketIO: {on: function() {}}
             });
-            scope.tasks = {'ham': {slug: 'ham', title: 'spam', item_count: 10, current_count: 2, percent: 90}}
+            scope.tasks = {'ham': {slug: 'ham', title: 'spam', item_count: 10, current_count: 2, percent: 90}};
 
             scope.progress_task('ham', 5);
             expect(scope.tasks).toEqual({'ham': {slug: 'ham', title: 'spam', item_count: 10, current_count: 5, percent: 50}});
